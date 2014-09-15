@@ -10,6 +10,7 @@ from __future__ import unicode_literals
 from decimal import Decimal
 
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
 from django.utils import six
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.contenttypes.models import ContentType
@@ -18,6 +19,7 @@ from django.contrib.contenttypes.models import ContentType
 @python_2_unicode_compatible
 class Category(models.Model):
     name = models.CharField(max_length=20)
+    content_type = models.ForeignKey(ContentType, null=True, default=None)
 
     class Meta:
         ordering = ('name',)
@@ -43,6 +45,7 @@ class Article(models.Model):
     headline = models.CharField(max_length=50)
     pub_date = models.DateTimeField()
     categories = models.ManyToManyField(Category)
+    content_types = models.ManyToManyField(ContentType)
 
     class Meta:
         ordering = ('pub_date',)
